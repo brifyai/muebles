@@ -2,12 +2,45 @@ import { useState, useEffect, useRef } from 'react';
 import { ShoppingBag, Search, Menu, X, ChevronDown, User, Heart } from 'lucide-react';
 import { useNavigation } from '@/context/NavigationContext';
 import { useCart } from '@/context/CartContext';
-import { categories, allProducts } from '@/data/products';
+import { allProducts } from '@/data/products';
+
+// Estructura del menú Tienda según diseño
+const shopMenuItems = [
+  {
+    category: 'Mesas',
+    items: ['Arrimos', 'Comedor', 'Mesa de centro']
+  },
+  {
+    category: 'Sillones & Sillas',
+    items: ['Pisos', 'Bancas']
+  },
+  {
+    category: 'Repisas y Vitrinas',
+    items: ['Rack', 'Aéreas']
+  },
+  {
+    category: 'Iluminación',
+    items: ['Aéreas', 'Pedestal']
+  },
+  {
+    category: 'Estufas y Fogones',
+    items: ['Estufas Leña', 'Estufas pellet', 'Fogón']
+  }
+];
+
+// Estructura del submenú Nosotros
+const aboutMenuItems = [
+  'Cuadros & Espejos',
+  'Maceteros',
+  'Adornos',
+  'Plantas Interior & suculentas'
+];
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [shopDropdown, setShopDropdown] = useState(false);
+  const [aboutDropdown, setAboutDropdown] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<typeof allProducts>([]);
@@ -54,6 +87,7 @@ export function Navbar() {
           <div className="flex items-center justify-between h-20">
             {/* Nav Izquierda */}
             <nav className="hidden lg:flex items-center gap-8">
+              {/* Dropdown Tienda */}
               <div
                 className="relative"
                 onMouseEnter={() => setShopDropdown(true)}
@@ -64,19 +98,27 @@ export function Navbar() {
                 </button>
                 {shopDropdown && (
                   <div className="absolute top-full left-0 pt-2 z-50">
-                    <div className="bg-white border border-light-gray shadow-xl min-w-[220px] py-3">
-                      {categories.map(cat => (
-                        <button
-                          key={cat.id}
-                          onClick={() => {
-                            navigate({ type: 'category', slug: cat.slug, name: cat.name });
-                            setShopDropdown(false);
-                          }}
-                          className="w-full text-left px-6 py-2.5 text-sm text-dark hover:text-brand hover:bg-cream/50 transition-colors flex items-center justify-between group"
-                        >
-                          <span>{cat.name}</span>
-                          <span className="text-[10px] text-warm-gray group-hover:text-brand">{cat.count}</span>
-                        </button>
+                    <div className="bg-white border border-light-gray shadow-xl min-w-[280px] py-4">
+                      {shopMenuItems.map((section) => (
+                        <div key={section.category} className="px-6 py-2">
+                          <p className="text-[11px] font-bold tracking-wider uppercase text-brand mb-2">
+                            {section.category}
+                          </p>
+                          <div className="flex flex-wrap gap-x-4 gap-y-1">
+                            {section.items.map((item) => (
+                              <button
+                                key={item}
+                                onClick={() => {
+                                  navigate({ type: 'category', slug: 'living-room', name: item });
+                                  setShopDropdown(false);
+                                }}
+                                className="text-[13px] text-dark hover:text-brand transition-colors"
+                              >
+                                {item}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
                       ))}
                     </div>
                   </div>
@@ -85,9 +127,34 @@ export function Navbar() {
               <button onClick={() => navigate({ type: 'category', slug: 'living-room', name: 'Sala de Estar' })} className="text-[13px] font-medium tracking-wide uppercase text-dark hover:text-brand transition-colors">
                 Colecciones
               </button>
-              <button onClick={() => navigate({ type: 'about' })} className="text-[13px] font-medium tracking-wide uppercase text-dark hover:text-brand transition-colors">
-                Nosotros
-              </button>
+              {/* Dropdown Nosotros */}
+              <div
+                className="relative"
+                onMouseEnter={() => setAboutDropdown(true)}
+                onMouseLeave={() => setAboutDropdown(false)}
+              >
+                <button className="text-[13px] font-medium tracking-wide uppercase text-dark hover:text-brand transition-colors flex items-center gap-1">
+                  Nosotros <ChevronDown className={`w-3 h-3 transition-transform ${aboutDropdown ? 'rotate-180' : ''}`} />
+                </button>
+                {aboutDropdown && (
+                  <div className="absolute top-full left-0 pt-2 z-50">
+                    <div className="bg-white border border-light-gray shadow-xl min-w-[220px] py-3">
+                      {aboutMenuItems.map((item) => (
+                        <button
+                          key={item}
+                          onClick={() => {
+                            navigate({ type: 'about' });
+                            setAboutDropdown(false);
+                          }}
+                          className="w-full text-left px-6 py-2.5 text-sm text-dark hover:text-brand hover:bg-cream/50 transition-colors"
+                        >
+                          {item}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
               <button onClick={() => navigate({ type: 'showroom' })} className="text-[13px] font-medium tracking-wide uppercase text-dark hover:text-brand transition-colors">
                 Taller
               </button>
@@ -158,22 +225,42 @@ export function Navbar() {
         {mobileOpen && (
           <div className="lg:hidden bg-white border-t border-light-gray">
             <div className="px-6 py-6 space-y-4">
-              <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-warm-gray mb-2">Comprar por Categoría</p>
-              {categories.map(cat => (
-                <button
-                  key={cat.id}
-                  onClick={() => {
-                    navigate({ type: 'category', slug: cat.slug, name: cat.name });
-                    setMobileOpen(false);
-                  }}
-                  className="block text-sm font-medium tracking-wide text-dark hover:text-brand transition-colors"
-                >
-                  {cat.name}
-                </button>
+              <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-warm-gray mb-2">Tienda</p>
+              {shopMenuItems.map((section) => (
+                <div key={section.category} className="space-y-2">
+                  <p className="text-xs font-semibold text-brand">{section.category}</p>
+                  <div className="pl-3 space-y-1">
+                    {section.items.map((item) => (
+                      <button
+                        key={item}
+                        onClick={() => {
+                          navigate({ type: 'category', slug: 'living-room', name: item });
+                          setMobileOpen(false);
+                        }}
+                        className="block text-sm text-dark hover:text-brand transition-colors"
+                      >
+                        {item}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               ))}
               <div className="border-t border-light-gray pt-4 mt-4 space-y-4">
                 <button onClick={() => { goHome(); setMobileOpen(false); }} className="block text-sm font-medium tracking-wide uppercase text-dark">Colecciones</button>
                 <button onClick={() => { navigate({ type: 'about' }); setMobileOpen(false); }} className="block text-sm font-medium tracking-wide uppercase text-dark">Nosotros</button>
+                <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-warm-gray mb-1">Decoración</p>
+                {aboutMenuItems.map((item) => (
+                  <button
+                    key={item}
+                    onClick={() => {
+                      navigate({ type: 'about' });
+                      setMobileOpen(false);
+                    }}
+                    className="block text-sm text-dark hover:text-brand transition-colors pl-3"
+                  >
+                    {item}
+                  </button>
+                ))}
                 <button onClick={() => { navigate({ type: 'showroom' }); setMobileOpen(false); }} className="block text-sm font-medium tracking-wide uppercase text-dark">Taller</button>
                 <button onClick={() => { navigate({ type: 'brands' }); setMobileOpen(false); }} className="block text-sm font-medium tracking-wide uppercase text-dark">Artesanos</button>
                 <button onClick={() => { navigate({ type: 'services' }); setMobileOpen(false); }} className="block text-sm font-medium tracking-wide uppercase text-dark">Sostenibilidad</button>

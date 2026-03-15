@@ -20,9 +20,9 @@ export function Hero() {
               </span>
 
               <h1 className="font-serif text-5xl md:text-6xl xl:text-7xl font-bold text-dark leading-[1.05] mb-6 text-balance">
-                Diseñado para el{' '}
-                <span className="italic text-brand">Confort</span>,{' '}
-                Hecho para Durar
+                Diseñado para abrazar{' '}
+                <span className="italic text-brand">espacios</span>.{' '}
+                Forjado para abrir caminos
               </h1>
 
               <p className="text-warm-gray text-lg md:text-xl leading-relaxed max-w-lg mb-10">

@@ -5,17 +5,17 @@ import { allProducts } from '@/data/products';
 import { useNavigation } from '@/context/NavigationContext';
 import { useCart } from '@/context/CartContext';
 
-const tabs = ['Todos', 'Sillas', 'Sofás', 'Mesas', 'Iluminación'];
+const tabs = ['TODOS', 'SILLAS', 'SOFÁS', 'MESAS', 'ILUMINACIÓN'];
 
 const categoryMap: Record<string, string[]> = {
-  Sillas: ['chairs-living-room', 'chairs-office', 'chairs-dining'],
-  Sofás: ['sofas-living-room'],
-  Mesas: ['tables-living-room', 'tables-dining', 'desks-office'],
-  Iluminación: ['lighting-living-room'],
+  SILLAS: ['chairs-living-room', 'chairs-office', 'chairs-dining'],
+  SOFÁS: ['sofas-living-room'],
+  MESAS: ['tables-living-room', 'tables-dining', 'desks-office'],
+  ILUMINACIÓN: ['lighting-living-room'],
 };
 
 export function ProductGrid() {
-  const [activeTab, setActiveTab] = useState('Todos');
+  const [activeTab, setActiveTab] = useState('TODOS');
   const { navigate } = useNavigation();
   const { addToCart } = useCart();
 
@@ -23,7 +23,7 @@ export function ProductGrid() {
     p.badge || p.rating >= 4.8
   ).slice(0, 8);
 
-  const filtered = activeTab === 'Todos'
+  const filtered = activeTab === 'TODOS'
     ? featured
     : featured.filter(p => categoryMap[activeTab]?.includes(p.subcategory));
 

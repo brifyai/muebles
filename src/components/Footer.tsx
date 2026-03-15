@@ -48,9 +48,9 @@ export function Footer() {
             <p className="text-white/50 text-sm leading-relaxed max-w-sm mb-8">
               Muebles diseñados para la forma en que vives. Cada pieza está elaborada con cuidado, construida para durar y entregada con un compromiso de calidad que ha sido nuestro sello durante más de 15 años.
             </p>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 mb-6">
               {[
-                { name: 'Instagram', url: 'https://www.instagram.com/' },
+                { name: 'Instagram', url: 'https://www.instagram.com/ergocraft' },
                 { name: 'Pinterest', url: 'https://www.pinterest.com/' },
                 { name: 'Facebook', url: 'https://www.facebook.com/' },
                 { name: 'LinkedIn', url: 'https://www.linkedin.com/' },
@@ -65,6 +65,16 @@ export function Footer() {
                   {social.name.slice(0, 2)}
                 </a>
               ))}
+            </div>
+            {/* Medios de Pago */}
+            <div className="flex items-center gap-3">
+              <span className="text-[10px] text-white/30 uppercase tracking-wider">Pagos seguros:</span>
+              <div className="flex items-center gap-2">
+                <div className="w-10 h-6 bg-white/10 rounded flex items-center justify-center text-[8px] text-white/60 font-bold">VISA</div>
+                <div className="w-10 h-6 bg-white/10 rounded flex items-center justify-center text-[8px] text-white/60 font-bold">MC</div>
+                <div className="w-10 h-6 bg-white/10 rounded flex items-center justify-center text-[8px] text-white/60 font-bold">AMEX</div>
+                <div className="w-10 h-6 bg-white/10 rounded flex items-center justify-center text-[8px] text-white/60 font-bold">PP</div>
+              </div>
             </div>
           </div>
 
@@ -108,10 +118,10 @@ export function Footer() {
           <div className="lg:col-span-2">
             <h4 className="text-xs font-semibold tracking-[0.25em] uppercase text-white/80 mb-6">Visítanos</h4>
             <div className="text-sm text-white/50 leading-relaxed mb-4">
-              <p>245 Distrito de Diseño</p>
-              <p>Nueva York, NY 10013</p>
-              <p className="mt-3">Lun – Sáb: 10am – 7pm</p>
-              <p>Domingo: 12pm – 5pm</p>
+              <p>Av. Paseo de la Reforma 245</p>
+              <p>Col. Juárez, CDMX 06600</p>
+              <p className="mt-3">Lun – Sáb: 10:00 – 19:00</p>
+              <p>Domingo: 12:00 – 17:00</p>
             </div>
             <a
               href="#"
